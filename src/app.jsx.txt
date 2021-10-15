@@ -1,0 +1,17 @@
+useEffect(() => {
+  /**
+   * authService는 httpClient를 가지고있고, httpClient한테 요청을 보낼거임.
+   * httpClient는 다른 곳에서 csrf를 가져올거임.
+   * 다만 토큰 값이 있어도 되고 없어도 됨. authService에게 요청을 보내는 것만 아니면 됨. (콜백 지옥)
+   * authService가 httpClient가 참조하는 값을 갱신시키는 방식으로 해야함.
+   * 
+   * authService는 값을 받아서 어딘가에 갱신해야하고, 갱신된 값을 httpClient가 받아야함.
+   * 
+   * 한마디로 http가 참조하는 값을 갱신시키는 객체가 있어야하고, 그것이 authService.
+   * csrfToken이 처음 발생하는 곳은 현재 App이므로, App에서 토큰반환 함수를 export해야함.
+   * 
+   * useImperativeHandle 차이점은? -> 코드 역할을 좀더 명확하게 구분함
+   */
+
+  authService.csrf().then(token => tokens.csrfToken = token).catch()
+}) 
