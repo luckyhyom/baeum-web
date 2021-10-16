@@ -22,6 +22,10 @@ export default class HttpClient {
         } catch (error) {
             console.error(error);
         }
+
+        if(data.statusCode < 200 || data.statusCode > 299) {
+            throw new Error(data.message);
+        }
         
         return data;
     }

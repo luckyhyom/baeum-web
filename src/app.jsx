@@ -1,11 +1,14 @@
 import { createRef, useEffect, useImperativeHandle, useState } from 'react';
 import './app.css';
+import { Login } from './components/login/login'
 
 const csrfRef = createRef();
 
 function App({authService}) {
 
+  const [user, setUser] = useState(undefined);
   const [csrfToken, setCsrfToken] = useState(undefined);
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
   useImperativeHandle(csrfRef, () => csrfToken);
 
@@ -13,8 +16,23 @@ function App({authService}) {
     authService.getCsrfToken().then(setCsrfToken).catch();
   }, [ authService ]);
 
+  const login = async (userId, password) => {
+    await authService.login(userId,password)
+      .then(setUser)
+      .then(setErrorMessage(undefined))
+      .catch(LoginException);
+  };
+
+  const LoginException = (error) => {
+    setErrorMessage(error.message)
+  }
+
   return (
-    <h1>Hello World</h1>
+    <>
+      { user ? <h1>Login Success</h1>:'non-login' }
+      <Login authService={ authService } onLogin={ login } />
+      { errorMessage && <p style={{ color: 'red' }}>{ errorMessage }</p> }
+    </>
   );
 }
 
