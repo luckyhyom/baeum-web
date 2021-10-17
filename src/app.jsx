@@ -29,13 +29,19 @@ function App({authService}) {
       .catch(LoginException);
   };
 
+  const logout = async () => {
+    await authService.logout()
+      .then(setUser(undefined))
+      .catch(LoginException)
+  }
+
   const LoginException = (error) => {
     setErrorMessage(error.message)
   }
 
   return (
     <>
-      { user ? <h1>Login Success</h1>:'non-login' }
+      { user ? <div onClick={logout}>Logout</div>: 'non-login' }
       <Login authService={ authService } onLogin={ login } />
       { errorMessage && <p style={{ color: 'red' }}>{ errorMessage }</p> }
     </>

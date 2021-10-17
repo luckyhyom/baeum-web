@@ -19,5 +19,8 @@ export default class AuthService {
     async me() {
         return await this.http.fetch('/auth/me',{});
     }
-
+    
+    async logout() {
+        return await this.http.fetch('/auth/logout',{ method: 'POST' });
+    }
 }
