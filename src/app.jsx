@@ -16,6 +16,12 @@ function App({authService}) {
     authService.getCsrfToken().then(setCsrfToken).catch();
   }, [ authService ]);
 
+  useEffect(() => {
+    authService.me().then(setUser)
+    .then(setErrorMessage(undefined))
+    .catch(console.error)
+  }, [ authService ])
+
   const login = async (userId, password) => {
     await authService.login(userId,password)
       .then(setUser)

@@ -16,4 +16,8 @@ export default class AuthService {
         })
     }
 
+    async me() {
+        return await this.http.fetch('/auth/me',{});
+    }
+
 }
