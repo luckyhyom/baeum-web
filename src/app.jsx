@@ -48,8 +48,15 @@ function App({authService}) {
           <Route path="/signup" component={ SignUp } />
 
           <Route path="/">
-          { user ? <div onClick={logout}>Logout</div> : <Login authService={ authService } onLogin={ login } /> }
-          { errorMessage && <p style={{ color: 'red' }}>{ errorMessage }</p> }
+            {
+              user ?
+                <div onClick={logout}>Logout</div>
+              : <Login
+                  onLogin={ login }
+                  authService={ authService }
+                  errorMessage={ errorMessage }
+                />
+            }
           </Route>
         </Switch>
       </BrowserRouter>
