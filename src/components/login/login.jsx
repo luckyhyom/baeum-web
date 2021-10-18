@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 export const Login = ({ onLogin }) => {
     const [userId, setUserId] = useState(undefined)
@@ -25,10 +26,13 @@ export const Login = ({ onLogin }) => {
     }
 
     return (
-        <form onSubmit={onSubmit}>
-            id: <input type="text" name="userId" onChange={onChange} /> <br></br>
-            pw: <input type="password" name="password" onChange={onChange}/>
-            <input type="submit" value="submit"/>
-        </form>
+        <>
+            <form onSubmit={onSubmit}>
+                id: <input type="text" name="userId" onChange={onChange} /> <br></br>
+                pw: <input type="password" name="password" onChange={onChange}/>
+                <input type="submit" value="submit"/>
+            </form>
+            <Link to="/signup">sign up</Link>
+        </>
     )
 }

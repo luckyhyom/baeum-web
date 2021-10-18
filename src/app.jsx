@@ -1,6 +1,8 @@
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createRef, useEffect, useImperativeHandle, useState } from 'react';
 import './app.css';
 import { Login } from './components/login/login'
+import { SignUp } from './components/signup/signup';
 
 const csrfRef = createRef();
 
@@ -41,9 +43,16 @@ function App({authService}) {
 
   return (
     <>
-      { user ? <div onClick={logout}>Logout</div>: 'non-login' }
-      <Login authService={ authService } onLogin={ login } />
-      { errorMessage && <p style={{ color: 'red' }}>{ errorMessage }</p> }
+      <BrowserRouter>
+        <Switch>
+          <Route path="/signup" component={ SignUp } />
+
+          <Route path="/">
+          { user ? <div onClick={logout}>Logout</div> : <Login authService={ authService } onLogin={ login } /> }
+          { errorMessage && <p style={{ color: 'red' }}>{ errorMessage }</p> }
+          </Route>
+        </Switch>
+      </BrowserRouter>
     </>
   );
 }
