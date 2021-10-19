@@ -1,4 +1,17 @@
-export const SignUp = () => {
+import { useEffect } from "react"
+import { useHistory } from "react-router"
+
+export const SignUp = ({ authService }) => {
+    const history = useHistory();
+    const toHome = () => {
+        history.push('/')
+    }
+
+    useEffect(() => {
+        authService.me().then((user) =>
+            user && toHome()
+        ).catch(error => console.log(console.error(error),'TQ'))
+    })
 
     const onSubmit = () => {
 
