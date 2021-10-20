@@ -7,6 +7,8 @@ export const SignUp = ({ authService }) => {
     const [userId, setUserId] = useState();
     const [name, setName] = useState();
     const [password, setPassword] = useState();
+    const [confirmPassword, setConfirmPassword] = useState();
+    const [passwordMessage, setPasswordMessage] = useState();
     const [about, setAbout] = useState();
     const [email, setEmail] = useState();
     const [photoURL, setPhotoURL] = useState();
@@ -54,6 +56,11 @@ export const SignUp = ({ authService }) => {
                 return
             case 'password':
                 setPassword(value)
+                checkPassword(name,value)
+                return
+            case 'confirmPassword':
+                setConfirmPassword(value)
+                checkPassword(name,value)
                 return
             case 'about':
                 setAbout(value)
@@ -68,12 +75,33 @@ export const SignUp = ({ authService }) => {
         }
     }
 
+    const checkPassword = (name, value) => {
+        switch (name) {
+            case 'password':
+                comparePassword(value,confirmPassword);
+                return
+            case 'confirmPassword':
+                comparePassword(value,password);
+                return
+            default:
+        }
+    }
+    
+    const comparePassword = (value, compare) => {
+        if(value === compare) {
+            return setPasswordMessage('비밀번호가 일치합니다.');
+        } else {
+            return setPasswordMessage('비밀번호가 일치하지 않습니다.');
+        } 
+    }
+
     return (
         <>
             <form onSubmit={onSubmit} method="POST">
                 userId: <input type="text" onChange={onChange} name="userId"/>
                 name: <input type="text" onChange={onChange} name="name"/>
                 password: <input type="password" onChange={onChange} name="password"/>
+                Confirm password: <input type="password" onChange={onChange} name="confirmPassword"/><span>{passwordMessage}</span>
                 about: <input type="text" onChange={onChange} name="about"/>
                 email: <input type="text" onChange={onChange} name="email"/>
                 photoURL: <input type="text" onChange={onChange} name="photoURL"/>
