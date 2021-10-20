@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { useHistory } from "react-router"
+import Button from '@mui/material/Button';
+import SignUp2 from "./singup.mui";
 
 export const SignUp = ({ authService }) => {
     const history = useHistory();
@@ -108,6 +110,7 @@ export const SignUp = ({ authService }) => {
                 {/* photoURL: <input type="file" onChange={onChange} name="photoURL"/> */}
                 <button type="submit">submit</button>
             </form>
+            <Button>no</Button>
         </>
     )
 }
