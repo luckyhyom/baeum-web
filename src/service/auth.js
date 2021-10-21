@@ -30,4 +30,11 @@ export default class AuthService {
     async logout() {
         return await this.http.fetch('/auth/logout',{ method: 'POST' });
     }
+
+    async updateProfile(data) {
+        return await this.http.fetch('/auth',{
+            method: 'PATCH',
+            body: JSON.stringify(data)
+        })
+    }
 }

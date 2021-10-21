@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Login } from "../login/login";
+import { ProfileUpdateForm } from "../profileUpdateForm/profileUpdateForm";
 
 export const MainPage = ({ authService, fileUploader }) => {
     const [user, setUser] = useState(undefined);
@@ -44,6 +45,10 @@ export const MainPage = ({ authService, fileUploader }) => {
         await fileUploader.uploadImage(formData).then(result => setProfileImage(result.location));
     }
 
+    const updateProfile = async (data) => {
+        await authService.updateProfile(data)
+    }
+
     return (
         <>
             {
@@ -61,6 +66,12 @@ export const MainPage = ({ authService, fileUploader }) => {
             }
             {
                 user && <img src={profileImage} style={{ width: '300px', height: '300px', objectFit: 'cover' }}/>
+            }
+            {
+                user && <ProfileUpdateForm 
+                    updateProfile={updateProfile}
+                    about={user.about}
+                    />
             }
         </>
     )
