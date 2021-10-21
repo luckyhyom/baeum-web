@@ -3,6 +3,7 @@ import { Login } from "../login/login";
 
 export const MainPage = ({ authService, fileUploader }) => {
     const [user, setUser] = useState(undefined);
+    const [profileImage, setProfileImage] = useState(undefined);
     const [errorMessage, setErrorMessage] = useState(undefined);
 
     useEffect(() => {
@@ -28,11 +29,11 @@ export const MainPage = ({ authService, fileUploader }) => {
         setErrorMessage(error.message)
     }
 
-    const imageChange = (event) => {
+    const imageChange = async (event) => {
         const file = event.target.files[0];
         const formData = new FormData();
         formData.append('image',file);
-        fileUploader.uploadImage(formData);
+        await fileUploader.uploadImage(formData).then(result => setProfileImage(result.location));
     }
 
     return (
@@ -49,6 +50,9 @@ export const MainPage = ({ authService, fileUploader }) => {
 
             {
                 user && <input type="file" onChange={imageChange}/>
+            }
+            {
+                user && <img src={profileImage} style={{ width: '300px', height: '300px', objectFit: 'cover' }}/>
             }
         </>
     )
