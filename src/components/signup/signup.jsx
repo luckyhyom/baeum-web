@@ -106,8 +106,6 @@ export const SignUp = ({ authService }) => {
                 Confirm password: <input type="password" onChange={onChange} name="confirmPassword"/><span>{passwordMessage}</span>
                 about: <input type="text" onChange={onChange} name="about"/>
                 email: <input type="text" onChange={onChange} name="email"/>
-                photoURL: <input type="text" onChange={onChange} name="photoURL"/>
-                {/* photoURL: <input type="file" onChange={onChange} name="photoURL"/> */}
                 <button type="submit">submit</button>
             </form>
             <Button>no</Button>
