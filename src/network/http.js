@@ -5,10 +5,16 @@ export default class HttpClient {
     }
 
     async fetch(url, options) {
+        let contentType = { 'Content-Type': 'application/json' };
+
+        if(url === '/auth/image' || url === '/auth/video') {
+            contentType = {};
+        }
+
         const res = await fetch(this.baseURL+url, {
             ...options,
             headers: {
-                'Content-Type': 'application/json',
+                ...contentType,
                 ...options.headers,
                 'csrf_token': this.getCsrfToken()
             },
