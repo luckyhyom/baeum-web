@@ -7,14 +7,21 @@ export const MainPage = ({ authService, fileUploader }) => {
     const [errorMessage, setErrorMessage] = useState(undefined);
 
     useEffect(() => {
-        authService.me().then(setUser)
+        authService.me()
+        .then(user => {
+            setUser(user);
+            setProfileImage(user.profileImageURL);
+        })
         .then(setErrorMessage(undefined))
         .catch(console.error)
     }, [ authService ])
 
     const login = async (userId, password) => {
         await authService.login(userId,password)
-            .then(setUser)
+            .then(user => {
+                setUser(user);
+                setProfileImage(user.profileImageURL);
+            })
             .then(setErrorMessage(undefined))
             .catch(LoginException);
     };
@@ -22,6 +29,7 @@ export const MainPage = ({ authService, fileUploader }) => {
     const logout = async () => {
         await authService.logout()
             .then(setUser(undefined))
+            .then(setProfileImage(undefined))
             .catch(LoginException)
     }
 
