@@ -35,8 +35,8 @@ export const MainPage = ({ authService, fileUploader }) => {
         const formData = new FormData();
         formData.append('image',file);
         await fileUploader.uploadImage(formData)
-        .then(result => {
-            setUser(user => ({ ...user, profileImageURL: result.location }))
+        .then(profileImageURL => {
+            setUser(user => ({ ...user, ...profileImageURL }))
         });
     }
 
