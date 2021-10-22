@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Login } from "../login/login";
 import { ProfileUpdateForm } from "../profileUpdateForm/profileUpdateForm";
+import { TopBar } from "../topBar/topBar";
 
 export const MainPage = ({ authService, fileUploader }) => {
     const [user, setUser] = useState(undefined);
@@ -46,15 +46,13 @@ export const MainPage = ({ authService, fileUploader }) => {
 
     return (
         <>
-            {
-                user ?
-                <div onClick={logout}>Logout</div>
-                : <Login
-                    onLogin={ login }
-                    authService={ authService }
-                    errorMessage={ errorMessage }
-                />
-            }
+            <TopBar
+                isUser={ user !== undefined }
+                onLogin={ login }
+                onLogout={ logout }
+                authService={ authService }
+                errorMessage={ errorMessage }
+            />
 
             {
                 user && <input type="file" onChange={imageChange}/>

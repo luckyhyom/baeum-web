@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
 
 export const Login = ({ onLogin, errorMessage }) => {
     const [userId, setUserId] = useState(undefined)
@@ -32,7 +31,6 @@ export const Login = ({ onLogin, errorMessage }) => {
                 pw: <input type="password" name="password" onChange={onChange}/>
                 <input type="submit" value="submit"/>
             </form>
-            <Link to="/signup">sign up</Link>
             { errorMessage && <p style={{ color: 'red' }}>{ errorMessage }</p> }
         </>
     )
