@@ -30,7 +30,7 @@ export const MainPage = ({ authService, fileUploader }) => {
         setErrorMessage(error.message)
     }
 
-    const imageChange = async (event) => {
+    const changeProfileImage = async (event) => {
         const file = event.target.files[0];
         const formData = new FormData();
         formData.append('image',file);
@@ -47,25 +47,14 @@ export const MainPage = ({ authService, fileUploader }) => {
     return (
         <>
             <TopBar
-                isUser={ user !== undefined }
+                user={ user }
                 onLogin={ login }
                 onLogout={ logout }
                 authService={ authService }
+                updateProfile={ updateProfile }
+                changeProfileImage={ changeProfileImage }
                 errorMessage={ errorMessage }
             />
-
-            {
-                user && <input type="file" onChange={imageChange}/>
-            }
-            {
-                user && <img src={user.profileImageURL} style={{ width: '300px', height: '300px', objectFit: 'cover' }}/>
-            }
-            {
-                user && <ProfileUpdateForm 
-                    updateProfile={updateProfile}
-                    about={user.about}
-                    />
-            }
         </>
     )
 }
