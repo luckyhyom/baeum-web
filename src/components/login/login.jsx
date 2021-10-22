@@ -1,35 +1,27 @@
 import { useState } from "react"
+import {Button, TextField} from "@mui/material"
 
 export const Login = ({ onLogin, errorMessage }) => {
-    const [userId, setUserId] = useState(undefined)
-    const [password, setPassword] = useState(undefined)
+    const [body, setBody] = useState({ userId: '', password: '' })
 
-    const onSubmit = (e) => {
-        e.preventDefault()
-        onLogin(userId, password)
+    const onSubmit = (event) => {
+        event.preventDefault();
+        onLogin(body.userId, body.password);
     }
 
     function onChange(event) {
-        const {
-            target: { name, value }
-        } = event;
-        switch (name) {
-            case 'userId':
-                setUserId(value)
-                return
-            case 'password':
-                setPassword(value)
-                return
-            default:
-        }
+        setBody(body => ({
+            ...body,
+            [event.target.name]: event.target.value
+        }))
     }
 
     return (
         <>
-            <form onSubmit={onSubmit}>
-                id: <input type="text" name="userId" onChange={onChange} /> <br></br>
-                pw: <input type="password" name="password" onChange={onChange}/>
-                <input type="submit" value="submit"/>
+            <form onSubmit={ onSubmit }>
+                <TextField id="outlined-basic" label="ID" variant="outlined" name="userId" onChange={onChange} fullWidth margin="normal" />
+                <TextField id="outlined-basic" label="Password" variant="outlined"  type="password" name="password" onChange={onChange} fullWidth margin="normal" />
+                <Button type="submit" variant="contained" fullWidth>submit</Button>
             </form>
             { errorMessage && <p style={{ color: 'red' }}>{ errorMessage }</p> }
         </>
