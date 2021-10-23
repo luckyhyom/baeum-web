@@ -1,4 +1,4 @@
-import { Button, AppBar, Box, Toolbar, Typography, Modal } from "@mui/material"
+import { Button, AppBar, Box, Toolbar, Typography, Modal, Popper, Fade, Card, CardMedia, CardContent, CardActions, Avatar, Input } from "@mui/material"
 import SnowshoeingIcon from '@mui/icons-material/Snowshoeing';
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -19,11 +19,21 @@ const signInStyle = {
 
 export const TopBar = ({ user, onLogin, authService, errorMessage, onLogout, updateProfile, changeProfileImage }) => {
     const history =  useHistory();
-    const [myInfoModal, setMyInfoModal] = useState(false);
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false); 
+
+    const [openPopper, setOpenPopper] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+  
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+      setOpenPopper((previousOpen) => !previousOpen);
+    };
+  
+    const canBeOpen = openPopper && Boolean(anchorEl);
+    const id = canBeOpen ? 'transition-popper' : undefined;
 
 
     return (
@@ -39,16 +49,49 @@ export const TopBar = ({ user, onLogin, authService, errorMessage, onLogout, upd
                         <Box sx={{ p:1 }}>
                             <Button color="inherit" onClick={ onLogout } variant="outlined">Logout</Button>
                         </Box>
+
                         <Box sx={{ p:1 }}>
-                        <Button color="inherit"  onClick={ () => setMyInfoModal(boolean=> !boolean) } variant="outlined" >My Info</Button>
+                            <Button aria-describedby={id} onClick={handleClick} color="inherit" variant="outlined" >
+                                My Info
+                            </Button>
+                            <Popper id={id} open={openPopper} anchorEl={anchorEl} transition>
+                            {({ TransitionProps }) => (
+                            <Fade {...TransitionProps} timeout={350}>
+                                <Box sx={{ border: 0, p: 2, bgcolor: "background.paper" }}>
+                                    <Card sx={{ maxWidth: 345 }}>
+                                        <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                            <Box sx={{ position: "relative", display: "flex", justifyContent: "center" }}>
+                                                <Avatar
+                                                    alt="Remy Sharp"
+                                                    src={ user.profileImageURL }
+                                                    sx={{ width: 100, height: 100 }}
+                                                />
+                                                <input type="file"
+                                                    style={{
+                                                        position: "absolute",
+                                                        top: "0px",
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        opacity: "0",
+                                                        cursor: "pointer"
+                                                    }}
+                                                    accept="image/*"
+                                                    onChange={ (event) => changeProfileImage(event) }
+                                                />
+                                            </Box>
+                                            <Typography gutterBottom variant="h6" component="div">
+                                                {user.name}
+                                            </Typography>
+                                            <ProfileUpdateForm 
+                                                updateProfile={ updateProfile }
+                                                about={ user.about }/>
+                                        </CardContent>
+                                    </Card>
+                                </Box>
+                            </Fade>
+                            )}
+                        </Popper>
                         </Box>
-                        <div style={{ display: myInfoModal ? 'block':'none' }} >
-                            <img src={ user.profileImageURL } style={{ width: '300px', height: '300px', objectFit: 'cover' }}/>
-                            <input type="file" onChange={ (event) => changeProfileImage(event) }/>
-                            <ProfileUpdateForm 
-                                updateProfile={ updateProfile }
-                                about={ user.about }/>
-                        </div>
                     </> }
 
                     { !user && <>

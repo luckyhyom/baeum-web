@@ -42,6 +42,9 @@ export const MainPage = ({ authService, fileUploader }) => {
 
     const updateProfile = async (data) => {
         await authService.updateProfile(data)
+            .then(setUser)
+            .then(setErrorMessage(undefined))
+            .catch(LoginException);
     }
 
     return (
