@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import { Login } from "../login/login";
 import { ProfileUpdateForm } from "../profileUpdateForm/profileUpdateForm";
-import styles from './topBar.module.css'
 
 const signInStyle = {
     position: 'absolute',
@@ -30,15 +29,19 @@ export const TopBar = ({ user, onLogin, authService, errorMessage, onLogout, upd
     return (
         <Box>
             <AppBar>
-                <Toolbar className={styles.toolbar}>
+                <Toolbar>
                     <SnowshoeingIcon/>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Baeum
                     </Typography>
 
-                    { user && <ul>
-                        <Button className={styles.button} color="inherit" onClick={ onLogout } variant="outlined">Logout</Button>
-                        <Button  color="inherit"  onClick={ () => setMyInfoModal(boolean=> !boolean) } variant="outlined" >My Info</Button>
+                    { user && <>
+                        <Box sx={{ p:1 }}>
+                            <Button color="inherit" onClick={ onLogout } variant="outlined">Logout</Button>
+                        </Box>
+                        <Box sx={{ p:1 }}>
+                        <Button color="inherit"  onClick={ () => setMyInfoModal(boolean=> !boolean) } variant="outlined" >My Info</Button>
+                        </Box>
                         <div style={{ display: myInfoModal ? 'block':'none' }} >
                             <img src={ user.profileImageURL } style={{ width: '300px', height: '300px', objectFit: 'cover' }}/>
                             <input type="file" onChange={ (event) => changeProfileImage(event) }/>
@@ -46,11 +49,15 @@ export const TopBar = ({ user, onLogin, authService, errorMessage, onLogout, upd
                                 updateProfile={ updateProfile }
                                 about={ user.about }/>
                         </div>
-                    </ul> }
+                    </> }
 
-                    { !user && <ul>
-                        <Button className={styles.button} color="inherit" onClick={ () => history.push('/signup') } variant="outlined" >Sign Up</Button>
-                        <Button  color="inherit" onClick={ handleOpen } variant="outlined" >Sign In</Button>
+                    { !user && <>
+                        <Box sx={{ p:1 }}>
+                            <Button color="inherit" onClick={ () => history.push('/signup') } variant="outlined" >Sign Up</Button>
+                        </Box>
+                        <Box sx={{ p:1 }}>
+                            <Button color="inherit" onClick={ handleOpen } variant="outlined" >Sign In</Button>
+                        </Box>
                         <Modal
                             open={open}
                             onClose={handleClose}
@@ -65,7 +72,7 @@ export const TopBar = ({ user, onLogin, authService, errorMessage, onLogout, upd
                             />
                             </Box>
                         </Modal>
-                    </ul> }
+                    </> }
                 </Toolbar>
             </AppBar>
         </Box>
