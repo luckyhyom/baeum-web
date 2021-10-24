@@ -137,6 +137,12 @@ export const SignUp = ({ authService }) => {
                     >
                         Sign Up
                     </Button>
+                    <Button 
+                        fullWidth
+                        onClick={ () => history.push('/') }
+                    >
+                        Home
+                    </Button>
                 </Box>
             </Box>
         </Container>
