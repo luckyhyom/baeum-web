@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from "react"
+import { Container, Typography, Box, Grid, TextField, Button } from "@mui/material";
+import { useEffect, useState } from "react"
 import { useHistory } from "react-router"
-import Button from '@mui/material/Button';
-import SignUp2 from "./singup.mui";
 
 export const SignUp = ({ authService }) => {
     const history = useHistory();
@@ -43,7 +42,7 @@ export const SignUp = ({ authService }) => {
 
         authService.signup(data)
             .then(user => user && history.push('/'))
-            .catch(console.log);
+            .catch(alert);
     }
 
     const onChange = (event) => {
@@ -98,17 +97,48 @@ export const SignUp = ({ authService }) => {
     }
 
     return (
-        <>
-            <form onSubmit={onSubmit} method="POST">
-                userId: <input type="text" onChange={onChange} name="userId"/>
-                name: <input type="text" onChange={onChange} name="name"/>
-                password: <input type="password" onChange={onChange} name="password"/>
-                Confirm password: <input type="password" onChange={onChange} name="confirmPassword"/><span>{passwordMessage}</span>
-                about: <input type="text" onChange={onChange} name="about"/>
-                email: <input type="text" onChange={onChange} name="email"/>
-                <button type="submit">submit</button>
-            </form>
-            <Button>no</Button>
-        </>
+        <Container>
+            <Box 
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Typography component="h1" variant="h5">
+                    Sign up
+                </Typography>
+                <Box component="form" onSubmit={onSubmit} sx={{ mt: 3 }} method="POST">
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField fullWidth label="ID" onChange={onChange} name="userId"/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField fullWidth label="Name" onChange={onChange} name="name"/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField fullWidth label="Password" type="password" onChange={onChange} name="password"/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField fullWidth label="Confirm Password" type="password" onChange={onChange} name="confirmPassword"/><span>{passwordMessage}</span>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField fullWidth label="About" onChange={onChange} name="about"/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField fullWidth label="E-mail" onChange={onChange} name="email"/>
+                        </Grid>
+                    </Grid>
+                    <Button type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Sign Up
+                    </Button>
+                </Box>
+            </Box>
+        </Container>
     )
 }
