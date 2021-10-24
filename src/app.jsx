@@ -6,7 +6,7 @@ import { MainPage } from './components/mainPage/mainPage';
 
 const csrfRef = createRef();
 
-function App({ authService, fileUploader }) {
+function App({ authService, fileUploader, lectureService }) {
 
   const [csrfToken, setCsrfToken] = useState(undefined);
   useImperativeHandle(csrfRef, () => csrfToken);
@@ -27,6 +27,7 @@ function App({ authService, fileUploader }) {
             <MainPage 
               authService={ authService }
               fileUploader={ fileUploader }
+              lectureService={ lectureService }
             />
           </Route>
         </Switch>
