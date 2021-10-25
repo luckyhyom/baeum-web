@@ -1,5 +1,5 @@
 import { Container, Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, IconButton } from "@mui/material";
-import { Favorite, Share } from '@mui/icons-material';
+import { Favorite, Share, DeleteForever, Create } from '@mui/icons-material';
 import { useState, useEffect } from "react";
 import { TopBar } from "../topBar/topBar";
 
@@ -71,9 +71,9 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
                 <Grid container spacing={2}>
                     {
                         Object.keys(lectures).map(key => {
-                            const { id, title, price, author } = lectures[key];
+                            const { id, title, price, author, userId } = lectures[key];
                             return (
-                                <Grid item xs={6} sm={4} md={3}>
+                                <Grid key={ id } item xs={6} sm={4} md={3}>
                                     <Card>
                                         <Box sx={{ p: 1 }}>
                                             <CardMedia
@@ -107,6 +107,17 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
                                             <IconButton aria-label="share">
                                                 <Share />
                                             </IconButton>
+                                            {
+                                                user && user.id === userId && 
+                                                <>
+                                                    <IconButton sx={{marginLeft:'auto'}}>
+                                                        <Create />
+                                                    </IconButton>
+                                                    <IconButton>
+                                                        <DeleteForever />
+                                                    </IconButton>
+                                                </>
+                                            }
                                         </CardActions>
                                     </Card>
                                 </Grid>
