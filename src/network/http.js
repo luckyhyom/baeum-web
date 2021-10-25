@@ -4,10 +4,10 @@ export default class HttpClient {
         this.getCsrfToken = getCsrfToken;
     }
 
-    async fetch(url, options) {
+    async fetch(url, options, isMultipart) {
         let contentType = { 'Content-Type': 'application/json' };
 
-        if(url === '/auth/image' || url === '/auth/video') {
+        if(isMultipart) {
             contentType = {};
         }
 

@@ -7,6 +7,6 @@ export default class FileUploader {
         return this.http.fetch('/auth/image', {
             method: 'POST',
             body: data
-        })
+        }, true)
     }
 }
