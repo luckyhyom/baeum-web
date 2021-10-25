@@ -9,4 +9,11 @@ export default class FileUploader {
             body: data
         }, true)
     }
+
+    uploadThumbnail(data) {
+        return this.http.fetch('/lectures/thumbnail', {
+            method: 'POST',
+            body: data
+        }, true)
+    }
 }
