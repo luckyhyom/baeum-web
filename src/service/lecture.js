@@ -4,6 +4,6 @@ export default class LectureService {
     }
 
     async getAll() {
-        return await this.http.fetch('/lecture',{ method: 'GET' });
+        return await this.http.fetch('/lectures',{ method: 'GET' });
     }
 }
