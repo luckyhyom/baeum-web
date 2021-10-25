@@ -71,14 +71,14 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
                 <Grid container spacing={2}>
                     {
                         Object.keys(lectures).map(key => {
-                            const { id, title, price, author, userId } = lectures[key];
+                            const { id, title, price, author, userId, thumbnail } = lectures[key];
                             return (
                                 <Grid key={ id } item xs={6} sm={4} md={3}>
-                                    <Card>
+                                    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                                         <Box sx={{ p: 1 }}>
                                             <CardMedia
                                                 component="img"
-                                                image={ "https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/af98e7e689b8411cb51aef899b8be1a2" }
+                                                image={ thumbnail }
                                                 sx={{
                                                     height: 145
                                                 }}
@@ -88,6 +88,7 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
                                             sx={{
                                                 pt: 1,
                                                 pb: 0,
+                                                flexGrow: 1,
                                             }}
                                         >
                                             <Typography variant="h6">
