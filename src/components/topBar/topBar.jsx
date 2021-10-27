@@ -1,4 +1,4 @@
-import { Button, AppBar, Box, Toolbar, Typography, Modal, Popper, Fade, Card, CardMedia, CardContent, CardActions, Avatar, Input } from "@mui/material"
+import { Button, AppBar, Box, Toolbar, Typography, Modal, Popper, Fade, Card, CardContent, Avatar, useMediaQuery } from "@mui/material"
 import SnowshoeingIcon from '@mui/icons-material/Snowshoeing';
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -18,6 +18,7 @@ const signInStyle = {
 };  
 
 export const TopBar = ({ user, onLogin, authService, errorMessage, onLogout, updateProfile, changeProfileImage }) => {
+    
     const history =  useHistory();
 
     const [open, setOpen] = useState(false);
@@ -26,15 +27,20 @@ export const TopBar = ({ user, onLogin, authService, errorMessage, onLogout, upd
 
     const [openPopper, setOpenPopper] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
-  
+    
     const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-      setOpenPopper((previousOpen) => !previousOpen);
+        setAnchorEl(event.currentTarget);
+        setOpenPopper((previousOpen) => !previousOpen);
     };
-  
+
     const canBeOpen = openPopper && Boolean(anchorEl);
     const id = canBeOpen ? 'transition-popper' : undefined;
 
+    // Styles
+    const isSmall = useMediaQuery('(max-width: 320px)');
+    const buttonStyle = {
+        p: isSmall ? 0.5 : 1,
+    }
 
     return (
         <Box>
@@ -46,11 +52,11 @@ export const TopBar = ({ user, onLogin, authService, errorMessage, onLogout, upd
                     </Typography>
 
                     { user && <>
-                        <Box sx={{ p:1 }}>
+                        <Box sx={buttonStyle}>
                             <Button color="inherit" onClick={ onLogout } variant="outlined">Logout</Button>
                         </Box>
 
-                        <Box sx={{ p:1 }}>
+                        <Box sx={buttonStyle}>
                             <Button aria-describedby={id} onClick={handleClick} color="inherit" variant="outlined" >
                                 My Info
                             </Button>
@@ -95,10 +101,10 @@ export const TopBar = ({ user, onLogin, authService, errorMessage, onLogout, upd
                     </> }
 
                     { !user && <>
-                        <Box sx={{ p:1 }}>
+                        <Box sx={buttonStyle}>
                             <Button color="inherit" onClick={ () => history.push('/signup') } variant="outlined" >Sign Up</Button>
                         </Box>
-                        <Box sx={{ p:1 }}>
+                        <Box sx={buttonStyle}>
                             <Button color="inherit" onClick={ handleOpen } variant="outlined" >Sign In</Button>
                         </Box>
                         <Modal

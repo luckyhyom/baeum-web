@@ -121,7 +121,8 @@ export const SignUp = ({ authService }) => {
                             <TextField fullWidth label="Password" type="password" onChange={onChange} name="password"/>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField fullWidth label="Confirm Password" type="password" onChange={onChange} name="confirmPassword"/><span>{passwordMessage}</span>
+                            <TextField fullWidth label="Confirm Password" type="password" onChange={onChange} name="confirmPassword"/>
+                            <span>{ passwordMessage }</span>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField fullWidth label="About" onChange={onChange} name="about"/>
