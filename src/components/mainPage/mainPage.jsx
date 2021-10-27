@@ -17,7 +17,13 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
 
     useEffect(() => {
         lectureService.getAll()
-        .then(setLectures)
+        .then(lectures => {
+            const update = {};
+            lectures.forEach(lecture => {
+                update[lecture.id] = lecture;
+            })
+            setLectures(update)
+        })
         .catch(console.error);
     }, [ lectureService ])
 
