@@ -4,6 +4,13 @@ export default class LectureService {
     }
 
     async getAll() {
-        return await this.http.fetch('/lectures',{ method: 'GET' });
+        return await this.http.fetch('/lectures', { method: 'GET' });
+    }
+
+    async create(data) {
+        return await this.http.fetch('/lectures', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
     }
 }

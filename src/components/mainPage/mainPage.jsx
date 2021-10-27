@@ -2,6 +2,7 @@ import { Container, Box, Grid, Card, CardMedia, CardContent, Typography, CardAct
 import { Favorite, Share, DeleteForever, Create } from '@mui/icons-material';
 import { useState, useEffect } from "react";
 import { TopBar } from "../topBar/topBar";
+import BasicSpeedDial from "../sqeed-dial/speedDial";
 
 export const MainPage = ({ authService, fileUploader, lectureService }) => {
     const [user, setUser] = useState(undefined);
@@ -69,6 +70,12 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
             .then(setUser)
             .then(setErrorMessage(undefined))
             .catch(LoginException);
+    }
+
+    const addLectureBoard = (lecture) => {
+        const update = { ...lectures };
+        update[lecture.id] = lecture;
+        setLectures(update)
     }
 
     return (
@@ -144,6 +151,11 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
                     }
                 </Grid>
             </Container>
+
+            <BasicSpeedDial
+                lectureService={ lectureService }
+                addBoard={ addLectureBoard }
+            />
         </>
     )
 }
