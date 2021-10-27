@@ -1,4 +1,5 @@
 import { Box, Modal, Button, TextField, Grid, IconButton, Typography } from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CreateIcon from '@mui/icons-material/Create';
 import ImageIcon from '@mui/icons-material/Image';
 import { useState } from 'react';
@@ -15,7 +16,7 @@ const style = {
     p: 4,
 };
 
-export default function BoardAddModal({ lectureService, addBoard }) {
+export default function BoardAddModal({ lectureService, fileUploader, addBoard }) {
     const [body, setBody] = useState({
         title: '',
         description: '',
@@ -25,13 +26,12 @@ export default function BoardAddModal({ lectureService, addBoard }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         lectureService.create(body)
-        .then(lecture => {
-            addBoard(lecture);
-            handleClose();
-        })
-        .catch(alert);
+            .then(lecture => {
+                addBoard(lecture);
+                handleClose();
+            })
+            .catch(alert);
     };
     
     const onChange = (event) => {
@@ -54,6 +54,22 @@ export default function BoardAddModal({ lectureService, addBoard }) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const [isFile, setIsFile] = useState(false);
+
+    const uploadFile = (event) => {
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append('thumbnail',file);
+        fileUploader.uploadThumbnail(formData)
+            .then(res => {
+                setIsFile(true);
+                setBody(body => ({
+                    ...body,
+                    thumbnail: res.thumbnail
+                }))
+            });
+    }
 
     return (
         <div>
@@ -109,6 +125,25 @@ export default function BoardAddModal({ lectureService, addBoard }) {
                                         label="price"
                                         id="price"
                                     />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <IconButton sx={{position: 'relative'}}>
+                                        {
+                                            isFile ? <CheckCircleOutlineIcon sx={{ color: 'green' }}/> : <ImageIcon />
+                                        }
+                                        <input type="file"
+                                            style={{
+                                                position: "absolute",
+                                                top: "0px",
+                                                width: "100%",
+                                                height: "100%",
+                                                opacity: "0",
+                                                cursor: "pointer"
+                                            }}
+                                            accept="image/*"
+                                            onChange={ (event) => uploadFile(event) }
+                                        />
+                                    </IconButton>
                                 </Grid>
                             </Grid>
                             <Button

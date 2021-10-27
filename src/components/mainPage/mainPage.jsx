@@ -55,16 +55,6 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
         });
     }
 
-    const uploadThumbnail = async (event) => {
-        const file = event.target.files[0];
-        const formData = new FormData();
-        formData.append('thumbnail',file);
-        await fileUploader.uploadThumbnail(formData)
-        .then(result => {
-            console.log(result)
-        });
-    }
-
     const updateProfile = async (data) => {
         await authService.updateProfile(data)
             .then(setUser)
@@ -91,7 +81,6 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
             />
 
             <Container sx={{ py: 10 }} maxWidth="md">
-            <input type="file" onChange={ (e) => uploadThumbnail(e) }/>
                 <Grid container spacing={2}>
                     {
                         Object.keys(lectures).reverse().map(key => {
@@ -154,6 +143,7 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
 
             <BasicSpeedDial
                 lectureService={ lectureService }
+                fileUploader={ fileUploader }
                 addBoard={ addLectureBoard }
             />
         </>

@@ -5,12 +5,13 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 import BoardAddModal from '../boardAddForm/boardAddForm';
 
 
-export default function BasicSpeedDial({ lectureService, addBoard }) {
+export default function BasicSpeedDial({ lectureService, fileUploader, addBoard }) {
   const actions = [
     {
       icon: <BoardAddModal
               lectureService={ lectureService }
               addBoard={ addBoard }
+              fileUploader={ fileUploader }
               />,
       name: 'Create Lecture'
     },
