@@ -94,7 +94,7 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
             <input type="file" onChange={ (e) => uploadThumbnail(e) }/>
                 <Grid container spacing={2}>
                     {
-                        Object.keys(lectures).map(key => {
+                        Object.keys(lectures).reverse().map(key => {
                             const { id, title, price, author, userId, thumbnail } = lectures[key];
                             return (
                                 <Grid key={ id } item xs={6} sm={4} md={3}>
