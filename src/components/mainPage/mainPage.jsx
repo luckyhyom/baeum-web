@@ -63,9 +63,24 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
     }
 
     const addLectureBoard = (lecture) => {
-        const update = { ...lectures };
-        update[lecture.id] = lecture;
-        setLectures(update)
+        const updated = { ...lectures };
+        updated[lecture.id] = lecture;
+        setLectures(updated)
+    }
+
+    const onDelete = (id) => {
+        if(!window.confirm('do you want to delete your lecture?')) {
+            return
+        }
+
+        lectureService.remove(id)
+            .then(res => {
+                const updated = { ...lectures };
+                delete updated[id]
+                setLectures(updated);
+                alert(res.message);
+            })
+            .catch(alert)
     }
 
     return (
@@ -127,7 +142,9 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
                                                     <IconButton sx={{marginLeft:'auto'}}>
                                                         <Create />
                                                     </IconButton>
-                                                    <IconButton>
+                                                    <IconButton
+                                                        onClick={ () => onDelete(id) }
+                                                    >
                                                         <DeleteForever />
                                                     </IconButton>
                                                 </>

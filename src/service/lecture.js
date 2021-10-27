@@ -13,4 +13,10 @@ export default class LectureService {
             body: JSON.stringify(data)
         });
     }
+
+    async remove(id) {
+        return await this.http.fetch(`/lectures/trash/${id}`, {
+            method: 'PATCH',
+        }); 
+    }
 }
