@@ -20,7 +20,7 @@ export default function BasicSpeedDial({ lectureService, fileUploader, addBoard 
   return (<>
       <SpeedDial
         ariaLabel="SpeedDial basic example"
-        sx={{ position: 'absolute', bottom: 32, right: 32 }}
+        sx={{ position: 'fixed', bottom: 32, right: 32 }}
         icon={<SpeedDialIcon />}
       >
         {actions.map((action) => (
