@@ -59,14 +59,12 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
 
     const uploadFile = (event) => {
         const file = event.target.files[0];
-        const formData = new FormData();
-        formData.append('thumbnail',file);
-        fileUploader.uploadThumbnail(formData)
+        fileUploader.uploadThumbnail(file)
             .then(res => {
                 setIsFile(true);
                 setBody(body => ({
                     ...body,
-                    thumbnail: res.thumbnail
+                    thumbnail: res.location
                 }))
             })
             .catch(error => {

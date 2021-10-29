@@ -47,11 +47,12 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
 
     const changeProfileImage = async (event) => {
         const file = event.target.files[0];
-        const formData = new FormData();
-        formData.append('image',file);
-        await fileUploader.uploadImage(formData)
-        .then(profileImageURL => {
-            setUser(user => ({ ...user, ...profileImageURL }))
+        await fileUploader.uploadImage(file)
+        .then(res => {
+            setUser(user => ({
+                ...user,
+                profileImageURL: res.location
+            }))
         });
     }
 
