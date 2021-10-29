@@ -159,11 +159,14 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
                 </Grid>
             </Container>
 
-            <BasicSpeedDial
+            {
+                user &&
+                <BasicSpeedDial
                 lectureService={ lectureService }
                 fileUploader={ fileUploader }
                 addBoard={ addLectureBoard }
-            />
+                />
+            }
         </>
     )
 }

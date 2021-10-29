@@ -23,6 +23,12 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
         thumbnail: '',
         price: 0,
     });
+    const [open, setOpen] = useState(false);
+    const [isFile, setIsFile] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -51,12 +57,6 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
         }
     }
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
-    const [isFile, setIsFile] = useState(false);
-
     const uploadFile = (event) => {
         const file = event.target.files[0];
         fileUploader.uploadThumbnail(file)
@@ -68,7 +68,7 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
                 }))
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 alert('이미지 업로드 에러 수정중입니다. 기본 이미지가 설정됩니다.')
                 setIsFile(true);
                 setBody(body => ({
