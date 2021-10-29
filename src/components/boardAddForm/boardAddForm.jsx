@@ -68,6 +68,15 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
                     ...body,
                     thumbnail: res.thumbnail
                 }))
+            })
+            .catch(error => {
+                console.log(error);
+                alert('이미지 업로드 에러 수정중입니다. 기본 이미지가 설정됩니다.')
+                setIsFile(true);
+                setBody(body => ({
+                    ...body,
+                    thumbnail: "https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/af98e7e689b8411cb51aef899b8be1a2"
+                }))
             });
     }
 
