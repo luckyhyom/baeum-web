@@ -127,7 +127,7 @@ export const MainPage = ({ authService, fileUploader, lectureService }) => {
                                                 { author }
                                             </Typography>
                                             <Typography>
-                                                { price }
+                                                ₩{ price.toLocaleString() }
                                             </Typography>
                                         </CardContent>
                                         <CardActions disableSpacing>
