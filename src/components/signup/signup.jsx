@@ -14,6 +14,12 @@ export const SignUp = ({ authService }) => {
     const [email, setEmail] = useState();
     const [photoURL, setPhotoURL] = useState();
 
+    const [validationUserIdMessage, setValidationUserIdMessage] = useState();
+    const [validationNameMessage, setValidationNameMessage] = useState();
+    const [validationPasswordMessage, setValidationPasswordMessage] = useState();
+    const [validationAboutMessage, setValidationAboutMessage] = useState();
+    const [validationEmailMessage, setValidationEmailMessage] = useState();
+
     const toHome = (user) => {
         history.push({
             pathname: '/',
@@ -42,7 +48,7 @@ export const SignUp = ({ authService }) => {
 
         authService.signup(data)
             .then(user => user && history.push('/'))
-            .catch(alert);
+            .catch(alert('회원가입 양식을 지켜주세요!'));
     }
 
     const onChange = (event) => {
@@ -50,24 +56,29 @@ export const SignUp = ({ authService }) => {
         
         switch (name) {
             case 'userId':
-                setUserId(value)
+                setUserId(value);
+                checkLength(value.length, 8, 14, setValidationUserIdMessage)
                 return;
             case 'name':
-                setName(value)
+                setName(value);
+                checkLength(value.length, 2, 6, setValidationNameMessage)
                 return
             case 'password':
-                setPassword(value)
-                checkPassword(name,value)
+                setPassword(value);
+                checkPassword(name,value);
+                checkLength(value.length, 9, 18, setValidationPasswordMessage)
                 return
             case 'confirmPassword':
-                setConfirmPassword(value)
-                checkPassword(name,value)
+                setConfirmPassword(value);
+                checkPassword(name,value);
                 return
             case 'about':
                 setAbout(value)
+                checkLength(value.length, 8, 50, setValidationAboutMessage)
                 return
             case 'email':
                 setEmail(value)
+                checkEmail(value, setValidationEmailMessage);
                 return
             case 'photoURL':
                 setPhotoURL(value)
@@ -96,6 +107,27 @@ export const SignUp = ({ authService }) => {
         } 
     }
 
+    function checkLength(lenth, min, max, setState) {
+        if(lenth < min) {
+            return setState('길이가 짧습니다.')
+        }
+        if(lenth > max) {
+            return setState('길이가 깁니다.')
+        }
+        return setState(undefined)
+    }
+
+    function checkEmail(email, setState) {
+        const reg = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+        if(reg.test(email)) {
+            return setState(undefined)
+        }
+        return setState('이메일 형식이 아닙니다.')
+    }
+
+
+
+
     return (
         <Container>
             <Box 
@@ -112,23 +144,28 @@ export const SignUp = ({ authService }) => {
                 <Box component="form" onSubmit={onSubmit} sx={{ mt: 3 }} method="POST">
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField fullWidth label="ID" onChange={onChange} name="userId"/>
+                            <TextField fullWidth label="ID" onChange={onChange} name="userId" placeholder="8~14 길이" required />
+                            <Typography variant="body2" sx={{ color: "red" }}>{ validationUserIdMessage }</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField fullWidth label="Name" onChange={onChange} name="name"/>
+                            <TextField fullWidth label="Name" onChange={onChange} name="name" placeholder="2~6 길이"  required />
+                            <Typography variant="body2" sx={{ color: "red" }}>{ validationNameMessage }</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField fullWidth label="Password" type="password" onChange={onChange} name="password"/>
+                            <TextField fullWidth label="Password" type="password" onChange={onChange} name="password" placeholder="9~18 길이" required />
+                            <Typography variant="body2" sx={{ color: "red" }}>{ validationPasswordMessage }</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField fullWidth label="Confirm Password" type="password" onChange={onChange} name="confirmPassword"/>
-                            <span>{ passwordMessage }</span>
+                            <TextField fullWidth label="Confirm Password" type="password" onChange={onChange} name="confirmPassword" placeholder="9~18 길이" required />
+                            <Typography variant="body2">{ passwordMessage }</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField fullWidth label="About" onChange={onChange} name="about"/>
+                            <TextField fullWidth label="About" onChange={onChange} name="about" placeholder="8~50 길이" required />
+                            <Typography variant="body2" sx={{ color: "red" }}>{ validationAboutMessage }</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField fullWidth label="E-mail" onChange={onChange} name="email"/>
+                            <TextField fullWidth label="E-mail" onChange={onChange} name="email" placeholder="email 형식만 입력 가능합니다." required />
+                            <Typography variant="body2" sx={{ color: "red" }}>{ validationEmailMessage }</Typography>
                         </Grid>
                     </Grid>
                     <Button type="submit"
