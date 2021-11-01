@@ -1,6 +1,7 @@
 import { Container, Typography, Box, Grid, TextField, Button } from "@mui/material";
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router"
+import { checkLength } from "../../util/LengthChecker"
 
 export const SignUp = ({ authService }) => {
     const history = useHistory();
@@ -105,16 +106,6 @@ export const SignUp = ({ authService }) => {
         } else {
             return setPasswordMessage('비밀번호가 일치하지 않습니다.');
         } 
-    }
-
-    function checkLength(lenth, min, max, setState) {
-        if(lenth < min) {
-            return setState('길이가 짧습니다.')
-        }
-        if(lenth > max) {
-            return setState('길이가 깁니다.')
-        }
-        return setState(undefined)
     }
 
     function checkEmail(email, setState) {

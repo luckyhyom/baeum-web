@@ -3,6 +3,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CreateIcon from '@mui/icons-material/Create';
 import ImageIcon from '@mui/icons-material/Image';
 import { useState } from 'react';
+import { checkLength } from '../../util/LengthChecker';
 
 const style = {
     position: 'absolute',
@@ -27,10 +28,11 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
     const [open, setOpen] = useState(false);
     const [isFile, setIsFile] = useState(false);
     const [loading, setLoding] = useState(false);
+    const [validationTitleMessage, setValidationTitleMessage] = useState();
+    const [validationDescriptionMessage, setValidationDescriptionMessage] = useState();
     
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -41,7 +43,10 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
                 setBody(formValue);
                 handleClose();
             })
-            .catch(alert);
+            .catch(error => {
+                console.error(error);
+                alert('양식에 맞춰 작성해주세요.');
+            });
     };
     
     const onChange = (event) => {
@@ -52,7 +57,15 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
                     price: parseInt(event.target.value)
                 }))
                 return;
-            default:
+            case 'title':
+                checkLength(event.target.value.length, 4, 100, setValidationTitleMessage);
+                setBody(body => ({
+                    ...body,
+                    [event.target.name]: event.target.value
+                }))
+                return;
+            case 'description':
+                checkLength(event.target.value.length, 10, 200, setValidationDescriptionMessage);
                 setBody(body => ({
                     ...body,
                     [event.target.name]: event.target.value
@@ -83,6 +96,7 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
                 }))
             });
     }
+
 
     return (
         <div>
@@ -116,7 +130,9 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
                                         name="title"
                                         label="title"
                                         id="title"
+                                        placeholder="4글자 이상 입력해주세요."
                                     />
+                                    <Typography variant="body2" sx={{ color: "red" }}>{ validationTitleMessage }</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -126,7 +142,9 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
                                         name="description"
                                         label="description"
                                         id="description"
+                                        placeholder="8글자 이상 입력해주세요."
                                     />
+                                    <Typography variant="body2" sx={{ color: "red" }}>{ validationDescriptionMessage }</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
