@@ -1,4 +1,4 @@
-import { Box, Modal, Button, TextField, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Modal, Button, TextField, Grid, IconButton, Typography, CircularProgress } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CreateIcon from '@mui/icons-material/Create';
 import ImageIcon from '@mui/icons-material/Image';
@@ -17,24 +17,28 @@ const style = {
 };
 
 export default function BoardAddModal({ lectureService, fileUploader, addBoard }) {
-    const [body, setBody] = useState({
+    const formValue = {
         title: '',
         description: '',
         thumbnail: '',
         price: 0,
-    });
+    }
+    const [body, setBody] = useState(formValue);
     const [open, setOpen] = useState(false);
     const [isFile, setIsFile] = useState(false);
-
+    const [loading, setLoding] = useState(false);
+    
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
         lectureService.create(body)
             .then(lecture => {
                 addBoard(lecture);
+                setIsFile(false);
+                setBody(formValue);
                 handleClose();
             })
             .catch(alert);
@@ -59,8 +63,10 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
 
     const uploadFile = (event) => {
         const file = event.target.files[0];
+        setLoding(true)
         fileUploader.uploadThumbnail(file)
             .then(res => {
+                setLoding(false);
                 setIsFile(true);
                 setBody(body => ({
                     ...body,
@@ -134,9 +140,12 @@ export default function BoardAddModal({ lectureService, fileUploader, addBoard }
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <IconButton sx={{position: 'relative'}}>
+                                    <IconButton sx={{position: 'relative'}} load>
                                         {
-                                            isFile ? <CheckCircleOutlineIcon sx={{ color: 'green' }}/> : <ImageIcon />
+                                            !loading && <ImageIcon sx={{ color: isFile ? "green" : "grey" }}/>
+                                        }
+                                        {
+                                            loading && <CircularProgress size="20px" />
                                         }
                                         <input type="file"
                                             style={{
