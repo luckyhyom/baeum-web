@@ -49,7 +49,10 @@ export const SignUp = ({ authService }) => {
 
         authService.signup(data)
             .then(user => user && history.push('/'))
-            .catch(alert('회원가입 양식을 지켜주세요!'));
+            .catch(error => {
+                console.error(error);
+                alert('회원가입 양식을 지켜주세요!')
+            });
     }
 
     const onChange = (event) => {
