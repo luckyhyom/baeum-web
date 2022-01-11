@@ -11,12 +11,12 @@ export default class HttpClient {
             contentType = {};
         }
 
-        const res = await fetch(this.baseURL+url, {
+        const res = await fetch(`${this.baseURL}${url}`, {
             ...options,
             headers: {
                 ...contentType,
                 ...options.headers,
-                'csrf_token': this.getCsrfToken()
+                'csrf-token': await this.getCsrfToken(),
             },
             credentials: 'include'
         });
